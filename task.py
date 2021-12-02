@@ -1,3 +1,4 @@
+from os import name
 import sys        #to get command line arguments
 import linecache as lc  #to read particular line by specifying line number
 import re         #to match regular expression
@@ -13,6 +14,21 @@ $ ./task help                 # Show usage
 $ ./task report               # Statistics
 """
 
+
+def getlist():
+    file = open("task.txt", "r")
+
+    priority_list = []  # making list containing tuple like (priority, index of line) to display according to priority of task.
+    c= 1
+    for each in file:
+        priority_list.append( (int(each[0]), c) )
+        c += 1
+    priority_list = sorted(priority_list)
+    
+    file.close()
+
+    return priority_list
+
 def add(priority, task):
     file = open('task.txt','a')
     file.write(priority + " " +task + "\n")
@@ -20,28 +36,64 @@ def add(priority, task):
     print('Added task: "{}" with priority {}'.format(task,priority))
 
 def ls():
+    global priority_list
     file = open("task.txt", "r")
 
-    priority = [] # making list containing tuple like (priority, index of line) to display according to priority of task.  
-    c= 1
-    for each in file:
-        priority.append( (int(each[0]), c) )
-        c += 1
-    priority = sorted(priority)
+      
+    priority_list = getlist()
     
-    
-    for i in range(len(priority)):
-        task = lc.getline('task.txt', priority[i][1])
+    for i in range(len(priority_list)):
+        task = lc.getline('task.txt', priority_list[i][1])
         print("{}. {} [{}]".format(i+1, task[2:-1], task[0])) # index. "task" [priority]
-    
+        
     file.close()
+    
 
-def delete(index):    
-   print("Deleted item with index {}".format(index))
 
-def done(index):    
-   print("Marked item as done.")
-            
+def delete(index):
+   try:
+        priority_list = getlist() 
+
+        file = open("task.txt", "r")
+        lines = file.readlines()
+        file.close()
+    
+        index = priority_list[int(index) - 1][1]
+        del lines[index - 1]
+        print("Deleted item with index {}".format(index))
+   
+   except IndexError:
+       print("Error: item with index {} does not exist. Nothing deleted.".format(index))
+
+
+def done(index):
+    try:
+        priority_list = getlist()   
+    
+        file = open("task.txt", "r")
+        lines = file.readlines()
+        file.close()
+    
+        index = priority_list[int(index) - 1][1]
+        
+        file = open('completed.txt', 'a')
+        file.write(lines[index - 1][2:])
+        file.close()
+
+        del lines[index - 1]
+    
+    
+        new_file = open("task.txt", "w+")
+        for line in lines:
+            new_file.write(line)
+
+        new_file.close()
+
+        print("Marked item as done.")
+    
+    except IndexError:
+        print("Error: no incomplete item with index {} exists.".format(index))   
+
 def report():
     
    file = open('task.txt', 'r')
@@ -66,7 +118,7 @@ def report():
        print(line[:-1]) 
 
 if __name__=="__main__":
-
+    
     if len(sys.argv) < 2:
         print(usage)
     elif sys.argv[1] =="help":
