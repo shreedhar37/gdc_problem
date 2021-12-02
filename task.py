@@ -102,7 +102,7 @@ def report():
        c += 1
    file.close()   
    
-   print("Pending: {}".format(c))
+   print("Pending : {}".format(c))
    ls()
    
    file = open('completed.txt', 'r')
@@ -111,11 +111,13 @@ def report():
        c += 1
    file.close()   
 
-   print("\nCompleted: {}".format(c))
+   print("\nCompleted : {}".format(c))
    
+   i = 1
    for index in range(c):
        line = lc.getline('completed.txt', (index + 1))
-       print(line[:-1]) 
+       print("{}. {}".format(i,line[:-1]))
+       i += 1 
 
 if __name__=="__main__":
     
@@ -123,7 +125,7 @@ if __name__=="__main__":
         print(usage)
     elif sys.argv[1] =="help":
         print(usage)     
-    elif sys.argv[1] == "add":
+    elif sys.argv[1] == "add": 
         add(sys.argv[2], sys.argv[3])
     elif sys.argv[1] == "ls":
         ls()
