@@ -30,14 +30,14 @@ def getlist():
     return priority_list
 
 def add(priority, task):
-    file = open('task.txt','a+')
+    file = open('task.txt','a')
     file.write(priority + " " +task + "\n")
     file.close()
     print('Added task: "{}" with priority {}'.format(task,priority))
 
 def ls():
     global priority_list
-    file = open("task.txt", "r+")
+    file = open("task.txt", "r")
     c = 0
     for each in file:
         c += 1
@@ -65,7 +65,7 @@ def delete(index):
         index = priority_list[int(index) - 1][1]
         del lines[index - 1]
 
-        new_file = open("task.txt", "w+")
+        new_file = open("task.txt", "w")
         for line in lines:
             new_file.write(line)
 
@@ -94,7 +94,7 @@ def done(index):
         del lines[index - 1]
     
     
-        new_file = open("task.txt", "w+")
+        new_file = open("task.txt", "w")
         for line in lines:
             new_file.write(line)
 
@@ -135,6 +135,12 @@ def report():
 
 if __name__=="__main__":
     
+    if not (os.path.exists('task.txt') and (os.path.exists('completed.txt'))):
+        f = open('task.txt', 'w+')
+        f.close()
+        f = open('completed.txt', 'w+')
+        f.close()
+
     if len(sys.argv) < 2:
         print(usage)
     
@@ -157,7 +163,7 @@ if __name__=="__main__":
         report()
     
     else:
-        print("Invalid argument provided\n",usage)
+        print(usage)
 
 
     
