@@ -1,8 +1,6 @@
 from os import name
 import sys        #to get command line arguments
 import linecache as lc  #to read particular line by specifying line number
-import re         #to match regular expression
-from datetime import date  #for date 
 import os.path    #to check whether file exists or not
 
 usage  = """Usage :-
@@ -148,8 +146,8 @@ if __name__=="__main__":
         print(usage)     
     
     elif sys.argv[1] == "add":
-       
-        add(sys.argv[2], sys.argv[3]) if (len(sys.argv) == 4) else print("Error: Missing tasks string. Nothing added!") 
+        print(len(sys.argv))
+        add(sys.argv[2][0], sys.argv[2][2:]) if (len(sys.argv) == 3) else print("Error: Missing tasks string. Nothing added!") 
        
     elif sys.argv[1] == "ls":
         ls()
