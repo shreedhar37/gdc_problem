@@ -148,7 +148,8 @@ if __name__=="__main__":
         print(usage)     
     
     elif sys.argv[1] == "add":
-      print("Error: Missing tasks string. Nothing added!") if len(sys.argv) <= 3 else add(sys.argv[2], sys.argv[3])
+       
+        add(sys.argv[2], sys.argv[3]) if (len(sys.argv) == 4) else print("Error: Missing tasks string. Nothing added!") 
        
     elif sys.argv[1] == "ls":
         ls()
