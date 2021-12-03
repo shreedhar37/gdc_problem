@@ -1,8 +1,6 @@
 from os import name
 import sys        #to get command line arguments
 import linecache as lc  #to read particular line by specifying line number
-import re         #to match regular expression
-from datetime import date  #for date 
 import os.path    #to check whether file exists or not
 
 usage  = """Usage :-
