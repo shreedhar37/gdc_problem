@@ -56,6 +56,9 @@ def ls():
 
 def delete(index):
    try:
+        if int(index) == 0:
+            print("Error: task with index #0 does not exist. Nothing deleted.")
+            
         priority_list = getlist() 
 
         file = open("task.txt", "r")
@@ -71,37 +74,41 @@ def delete(index):
 
         new_file.close()
 
-        print("Deleted item with index {}".format(index))
+        print("Deleted task #{}".format(index))
    
    except:
-       print("Error: item with index {} does not exist. Nothing deleted.".format(index))
+       print("Error: task with index #{} does not exist. Nothing deleted.".format(index))
 
 
 def done(index):
     try:
-        priority_list = getlist()   
-    
-        file = open("task.txt", "r")
-        lines = file.readlines()
-        file.close()
-    
-        index = priority_list[int(index) - 1][1]
+        if int(index) == 0:
+            print("Error: no incomplete item with index #0 exists.")
+        else:
+
+            priority_list = getlist()   
         
-        file = open('completed.txt', 'a')
-        file.write(lines[index - 1][2:])
-        file.close()
+            file = open("task.txt", "r")
+            lines = file.readlines()
+            file.close()
+        
+            index = priority_list[int(index) - 1][1]
+            
+            file = open('completed.txt', 'a')
+            file.write(lines[index - 1][2:])
+            file.close()
 
-        del lines[index - 1]
-    
-    
-        new_file = open("task.txt", "w")
-        for line in lines:
-            new_file.write(line)
+            del lines[index - 1]
+        
+        
+            new_file = open("task.txt", "w")
+            for line in lines:
+                new_file.write(line)
 
-        new_file.close()
+            new_file.close()
 
-        print("Marked item as done.")
-    
+            print("Marked item as done.")
+        
     except :
         print("Error: no incomplete item with index {} exists.".format(index))   
 
